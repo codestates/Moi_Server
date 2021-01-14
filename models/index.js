@@ -6,7 +6,11 @@ module.exports = () => {
       mongoose.set('debug', true);
     }
     try {
-      await mongoose.connect(process.env.MONGODB_URL);
+      await mongoose.connect(process.env.MONGODB_URL, {
+        dbName: 'Moi',
+        useUnifiedTopology: true,
+        useNewUrlParser: true,
+      });
     } catch (err) {
       console.error(err);
     }
