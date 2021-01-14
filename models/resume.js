@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const { Schema } = mongoose;
 const resumeSchema = new Schema({
+  userId: { type: Schema.Types.ObjectId, ref: 'User' },
   form: {
     info: {
       title: { type: String, default: 'Untitled' },

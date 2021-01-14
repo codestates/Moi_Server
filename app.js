@@ -4,17 +4,14 @@ const logger = require('morgan');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-const passport = require('passport');
 
 const authRouter = require('./routes/auth');
 const resumeRouter = require('./routes/resume');
 const uploadRouter = require('./routes/upload');
 const connect = require('./models');
-const configPassport = require('./passport');
 
 const app = express();
 connect();
-configPassport(passport);
 
 app.use(logger('dev'));
 app.use(express.urlencoded({ extended: false }));
@@ -40,8 +37,6 @@ app.use(
     },
   }),
 );
-app.use(passport.initialize());
-app.use(passport.session());
 
 app.use('/auth', authRouter);
 app.use('/resume', resumeRouter);
