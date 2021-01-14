@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 const userSchema = new Schema({
   email: {
     type: String,
-    required: true,
+    required: false,
   },
   snsId: {
     type: String,
@@ -14,7 +14,6 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  resumeId: [{ type: mongoose.Types.ObjectId, ref: 'Resume' }],
 });
 
 module.exports = mongoose.model('User', userSchema);

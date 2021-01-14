@@ -1,15 +1,11 @@
 const express = require('express');
+const authController = require('../controllers/authController');
 
 const router = express.Router();
 
-router.get('/google');
-router.get('/google/callback');
-router.get('/facebook');
-router.get('/facebook/callback');
-router.get('/github');
-router.get('/github/callback');
-router.post('/signout');
-router.post('/withdrawal');
-router.get('/isauth');
+router.get('/social', authController.social);
+router.post('/signout', authController.signOut);
+router.post('/withdrawal', authController.withdrawal);
+router.get('/isauth', authController.isAuth);
 
 module.exports = router;
