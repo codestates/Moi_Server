@@ -9,7 +9,7 @@ module.exports = async (req, res) => {
       isLoggedIn: false,
     });
   } else {
-    let userInfo = await await User.where({ snsId: snsId }).findOne();
+    let userInfo = await User.where({ snsId: snsId }).findOne();
     if (userInfo) {
       let token = jwt.sign(
         {
@@ -43,6 +43,7 @@ module.exports = async (req, res) => {
           provider: newUser.provider,
         },
         process.env.JWT_SECRET,
+        { expiresIn: '7d' },
       );
       res
         .status(200)
