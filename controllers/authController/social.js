@@ -9,12 +9,7 @@ module.exports = async (req, res) => {
       isLoggedIn: false,
     });
   } else {
-    let userInfo = await User.findOne({
-      where: {
-        snsId: snsId,
-        email: email,
-      },
-    });
+    let userInfo = await await User.where({ snsId: snsId }).findOne();
     if (userInfo) {
       let token = jwt.sign(
         {
@@ -23,7 +18,8 @@ module.exports = async (req, res) => {
           email: userInfo.email,
           provider: userInfo.provider,
         },
-        SECRET,
+        process.env.JWT_SECRET,
+        { expiresIn: '7d' },
       );
       res
         .status(200)
