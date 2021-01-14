@@ -16,7 +16,15 @@ module.exports = async (req, res) => {
       },
     });
     if (userInfo) {
-      let token = jwt.sign({ snsId, email, provider }, SECRET);
+      let token = jwt.sign(
+        {
+          _id: userInfo._id,
+          snsId: userInfo.snsId,
+          email: userInfo.email,
+          provider: userInfo.provider,
+        },
+        SECRET,
+      );
       res
         .status(200)
         .cookie('accessToken', token, {
@@ -26,12 +34,20 @@ module.exports = async (req, res) => {
         })
         .json({ isLoggedIn: true });
     } else {
-      await User.create({
+      const newUser = await User.create({
         email: email,
         snsId: snsId,
         provider: provider,
       });
-      let token = jwt.sign({ snsId, email, provider }, process.env.JWT_SECRET);
+      let token = jwt.sign(
+        {
+          _id: newUser._id,
+          snsId: newUser.snsId,
+          email: newUser.email,
+          provider: newUser.provider,
+        },
+        process.env.JWT_SECRET,
+      );
       res
         .status(200)
         .cookie('accessToken', token, {
