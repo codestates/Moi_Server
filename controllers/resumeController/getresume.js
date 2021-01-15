@@ -1,6 +1,6 @@
 const Resume = require('../../models/resume');
 
-module.exports = (req, res) => {
+module.exports = (req, res, next) => {
   try {
     if (!req.user) res.status(400).json({ getResume: false });
     const resumeId = req.params.resumeId;
@@ -9,7 +9,6 @@ module.exports = (req, res) => {
     });
     res.status(200).json({ getResume: true, resume: resume });
   } catch (err) {
-    console.log(err);
-    res.status(400).json({ getResume: false });
+    next(err);
   }
 };

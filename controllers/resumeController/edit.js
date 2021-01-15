@@ -1,6 +1,6 @@
 const Resume = require('../../models/resume');
 
-module.exports = (req, res) => {
+module.exports = (req, res, next) => {
   try {
     if (!req.user) res.status(400).json({ edit: false });
 
@@ -18,7 +18,6 @@ module.exports = (req, res) => {
     );
     res.status(200).json({ edit: true, resume: editResume });
   } catch (err) {
-    console.log(err);
-    res.status(400).json({ edit: false });
+    next(err);
   }
 };
