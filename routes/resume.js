@@ -5,8 +5,9 @@ const jwtMiddleware = require('../lib/jwtMiddleware');
 const router = express.Router();
 
 router.post('/save', jwtMiddleware, resumeController.save);
-router.patch('/edit', jwtMiddleware, resumeController.edit);
+router.post('/edit', jwtMiddleware, resumeController.edit);
+router.get('/getresume/:resumeId', jwtMiddleware, resumeController.getResume);
 router.delete('/delete', jwtMiddleware, resumeController.delete);
-router.get('/list/:resumeId', jwtMiddleware, resumeController.list);
+router.get('/list', jwtMiddleware, resumeController.list);
 
 module.exports = router;
