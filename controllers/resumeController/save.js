@@ -1,6 +1,6 @@
 const Resume = require('../../models/resume');
 
-module.exports = async (req, res) => {
+module.exports = async (req, res, next) => {
   if (!req.user) res.status(400).json({ save: false });
   try {
     const { email, name, phone } = req.body.form.info.contact;
@@ -11,7 +11,6 @@ module.exports = async (req, res) => {
     });
     res.status(200).json({ save: true });
   } catch (err) {
-    console.log(err);
-    res.status(400).json({ save: false });
+    next(err);
   }
 };
