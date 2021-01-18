@@ -13,7 +13,13 @@ const connect = require('./models');
 const app = express();
 connect();
 
-app.use(logger('dev'));
+app.set('port', process.env.PORT || 8080);
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(logger('combined'));
+} else {
+  app.use(logger('dev'));
+}
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(
@@ -38,6 +44,7 @@ app.use(
   }),
 );
 
+app.get('/', (req, res) => res.status(200).end());
 app.use('/auth', authRouter);
 app.use('/resume', resumeRouter);
 app.use('/upload', uploadRouter);
@@ -52,9 +59,7 @@ app.use((err, req, res) => {
   res.locals.message = err.message;
   res.locals.error = process.env.NODE_ENV === 'development' ? err : {};
   res.status(err.status || 500);
-  res.json({ redirect_url: '/error' });
+  res.end();
 });
 
-app.listen(process.env.PORT, () => {
-  console.log(`${process.env.PORT} pending!`);
-});
+app.listen(app.get('port'));

@@ -1,18 +1,18 @@
-const { s3 } = require('../../lib/multerMiddleware');
+const { deleteProfiles } = require('../../lib/multerMiddleware');
 
-const deleteImage = (req, res, next) => {
+const deleteImage = async (req, res, next) => {
   const { location } = req.body;
-  if (location) {
-    const splitLocation = location.split('/');
-    const fileName = splitLocation[splitLocation.length - 1];
-    const param = {
-      Bucket: 'moi-profile',
-      Key: fileName,
-    };
-    s3.deleteObject(param, (err) => {
-      if (err) return next(err);
+  try {
+    if (location) {
+      await deleteProfiles(location);
       res.status(200).json({ location: '', isDeleted: true });
-    });
+    } else {
+      const err = new Error('is Deleted False');
+      err.status = 400;
+      next(err);
+    }
+  } catch (err) {
+    next(err);
   }
 };
 

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 const resumeSchema = new Schema({
   userId: { type: Schema.Types.ObjectId, ref: 'User' },
-  template: { type: String, required: true },
+  template: { type: Number, required: true },
   form: {
     _id: false,
     info: {
@@ -23,13 +23,13 @@ const resumeSchema = new Schema({
         profile: { type: String },
       },
     },
-    avatart: { type: String },
+    avatar: { type: String },
   },
   skills: [
     {
       _id: false,
       skill: { type: String },
-      icon: { type: String },
+      description: { type: String },
     },
   ],
   workExperience: [
@@ -51,17 +51,16 @@ const resumeSchema = new Schema({
       _id: false,
       eduTitle: { type: String },
       eduDesc: { type: String },
-      eduPeriod: {
-        start: { type: String },
-        end: { type: String },
-      },
+      start: { type: String },
+      end: { type: String },
     },
   ],
   project: [
     {
       _id: false,
       projectName: { type: String },
-      projectPeriod: { start: { type: String }, end: { type: String } },
+      start: { type: String },
+      end: { type: String },
       projectDesc: { type: String },
       projectPosition: { type: String },
     },
@@ -71,10 +70,8 @@ const resumeSchema = new Schema({
       _id: false,
       aeaTitle: { type: String },
       aeaDesc: { type: String },
-      aeaPeriod: {
-        start: { type: String },
-        end: { type: String },
-      },
+      start: { type: String },
+      end: { type: String },
     },
   ],
   certification: [
@@ -85,8 +82,21 @@ const resumeSchema = new Schema({
       certificationDate: { type: String },
     },
   ],
-  createdAt: { type: Schema.Types.Date, default: Date.now() },
-  updatedAt: { type: Schema.Types.Date, default: Date.now() },
+  createdAt: { type: String },
+  updatedAt: { type: String },
+});
+
+resumeSchema.method('dateFormatting', (now) => {
+  const currentTimeZoneOffsetInHours = -now.getTimezoneOffset() / 60;
+  const currentTimeZone = new Date(now + currentTimeZoneOffsetInHours);
+  const year = currentTimeZone.getFullYear();
+  const month = `0${currentTimeZone.getMonth() + 1}`.slice(-2);
+  const date = `0${currentTimeZone.getDate()}`.slice(-2);
+  const hours = `0${currentTimeZone.getHours()}`.slice(-2);
+  const minutes = `0${currentTimeZone.getMinutes()}`.slice(-2);
+  const seconds = `0${currentTimeZone.getSeconds()}`.slice(-2);
+
+  return `${year}-${month}-${date} ${hours}:${minutes}:${seconds}`;
 });
 
 module.exports = mongoose.model('Resume', resumeSchema);

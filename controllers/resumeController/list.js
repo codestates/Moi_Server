@@ -11,8 +11,9 @@ module.exports = async (req, res, next) => {
       return {
         resumeId: el._id,
         title: el.form.info.title,
-        createdAt: '2021.01',
-        template: 'asd',
+        createdAt: el.createdAt,
+        updatedAt: el.updatedAt,
+        template: el.template,
       };
     });
 
