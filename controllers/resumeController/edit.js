@@ -10,14 +10,19 @@ module.exports = async (req, res, next) => {
       _id: req.body._id,
       userId: req.user._id,
     });
-    if (!userResume) res.status(400).json({ isEdited: false });
 
+    if (!userResume) res.status(400).json({ isEdited: false });
+    const updatedAt = new Date();
     await Resume.updateOne(
       { _id: req.body._id, userId: req.user._id },
-      { $set: { ...req.body } },
+      { $set: { ...req.body, ...updatedAt } },
       { returnNewDocument: true },
     );
-    res.status(200).json({ isEdited: true });
+    const newResume = await Resume.findOne({
+      _id: req.body._id,
+      userId: req.user._id,
+    })
+    res.status(200).json({ isEdited: true, newResume });
   } catch (err) {
     next(err)
   }
