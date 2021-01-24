@@ -5,6 +5,7 @@ const jwtMiddleware = require('../lib/jwtMiddleware');
 const router = express.Router();
 
 router.post('/social', authController.social);
+router.post('/google', authController.goole);
 router.post('/signout', jwtMiddleware, authController.signOut);
 router.post('/withdrawal', jwtMiddleware, authController.withdrawal);
 router.get('/isauth', jwtMiddleware, authController.isAuth);
