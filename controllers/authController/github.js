@@ -5,21 +5,29 @@ const jwt = require('jsonwebtoken');
 module.exports = async (req, res, next) => {
   try {
     const { authorizationCode } = req.body;
-    const clientId = process.env.KAKAO_CLIENT_ID;
-    const clientKey = process.env.KAKAO_SECRET_KEY;
-    const kakaoToken = await axios.post(
-      `https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${clientId}&client_secret=${clientKey}&redirect_uri=http://localhost:3000&code=${authorizationCode}`,
+    const clientId = process.env.GITHUB_CLENT_ID;
+    const secretKey = process.env.GITHUB_SECRET_KEY;
+    const githubToken = await axios.post(
+      'https://github.com/login/oauth/access_token',
+      {
+        code: authorizationCode,
+        client_id: clientId,
+        client_secret: secretKey,
+      },
+      {
+        headers: {
+          accept: 'application/json',
+        },
+      },
     );
-    const { access_token } = kakaoToken.data;
-    const kakaoData = await axios.get('https://kapi.kakao.com/v2/user/me', {
+
+    const { access_token } = githubToken.data;
+    const githubData = await axios.get('https://api.github.com/user', {
       headers: {
-        Authorization: `Bearer ${access_token}`,
+        Authorization: `token ${access_token}`,
       },
     });
-    const {
-      id,
-      kakao_account: { email },
-    } = kakaoData.data;
+    const { id, email } = githubData.data;
     const exUser = await User.where({ snsId: id }).findOne();
     if (exUser) {
       const token = jwt.sign(
@@ -45,7 +53,11 @@ module.exports = async (req, res, next) => {
         })
         .json({ currentUser: { id: exUser._id, email: exUser.email } });
     } else {
-      const user = new User({ snsId: id, email: email, provider: 'kakao' });
+      const user = new User({
+        snsId: id,
+        email: email ? email : null,
+        provider: 'github',
+      });
       const newUser = await user.save();
       const token = jwt.sign(
         {
