@@ -8,6 +8,7 @@ const session = require('express-session');
 const authRouter = require('./routes/auth');
 const resumeRouter = require('./routes/resume');
 const uploadRouter = require('./routes/upload');
+const mailRouter = require('./routes/mail');
 const connect = require('./models');
 
 const app = express();
@@ -48,6 +49,7 @@ app.get('/', (req, res) => res.status(200).end());
 app.use('/auth', authRouter);
 app.use('/resume', resumeRouter);
 app.use('/upload', uploadRouter);
+app.use('/mail', mailRouter);
 
 app.use((req, res, next) => {
   const err = new Error('Not Found');
