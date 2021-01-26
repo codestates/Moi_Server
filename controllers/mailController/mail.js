@@ -1,8 +1,8 @@
 const nodemailer = require('nodemailer');
 
 module.exports = async (req, res, next) => {
-  const { email, title, desc, name } = req.body;
-  if (!email || !title || !desc || !name)
+  const { email, title, desc, username } = req.body;
+  if (!email || !title || !desc || !username)
     res.status(500).json({ isMailSucssessed: false });
   try {
     let transporter = nodemailer.createTransport({
@@ -17,10 +17,10 @@ module.exports = async (req, res, next) => {
     });
     
     let message = {
-      from: `${name}<${process.env.GOOGLE_MAIL}>`,
+      from: `${username}<${process.env.GOOGLE_MAIL}>`,
       to: process.env.GOOGLE_MAIL,
       subject: title,
-      html: `<div><h2>${name}</h2><h3>${email}</h3>${desc}</div>`,
+      html: `<div><h2>${username}</h2><h3>${email}</h3>${desc}</div>`,
     };
     transporter.sendMail(message, (err) => {
       if (err) next(err);
