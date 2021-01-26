@@ -12,6 +12,7 @@ const resumeSchema = new Schema({
         phone: { type: String, required: true },
         name: { type: String, required: true },
         email: { type: String, required: true },
+        avatar: { type: String },
         link: {
           facebook: { type: String },
           twitter: { type: String },
@@ -23,7 +24,6 @@ const resumeSchema = new Schema({
         profile: { type: String },
       },
     },
-    avatar: { type: String },
   },
   skills: [
     {
@@ -36,10 +36,8 @@ const resumeSchema = new Schema({
     {
       _id: false,
       companyName: { type: String },
-      workPeriod: {
-        start: { type: String },
-        end: { type: String },
-      },
+      start: { type: String },
+      end: { type: String },
       position: {
         name: { type: String },
         desc: [{ type: String }],
