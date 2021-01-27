@@ -20,7 +20,16 @@ module.exports = async (req, res, next) => {
       from: `${username}<${process.env.GOOGLE_MAIL}>`,
       to: process.env.GOOGLE_MAIL,
       subject: title,
-      html: `<div><h2>${username}</h2><h3>${email}</h3>${desc}</div>`,
+      html: `<div 
+      style='
+      text-align: center; 
+      width: 50%; 
+      height: 60%;
+      margin: 15%;
+      padding: 20px;
+      box-shadow: 1px 1px 3px 0px #999;
+      '>
+      <h2>${username} 님의 메일입니다.</h2> <br/> <h2>제목: ${title}</h2> <br/>${desc} <br/><br/><br/><br/><br/><br/>모두의 이력서-Moi 2021 © Moi.co.kr </div> <h3>Contact : ${email}</h3><br/><br/> `,
     };
     transporter.sendMail(message, (err) => {
       if (err) next(err);
