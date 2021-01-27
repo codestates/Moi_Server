@@ -49,7 +49,7 @@ module.exports = async (req, res, next) => {
           httpOnly: true,
           secure: false,
           maxAge: 1000 * 60 * 60 * 24 * 7,
-          sameSite: 'none',
+          sameSite: 'lax',
         })
         .json({ currentUser: { id: exUser._id, email: exUser.email } });
     } else {
@@ -74,7 +74,7 @@ module.exports = async (req, res, next) => {
         .status(200)
         .cookie('accessToken', token, {
           httpOnly: true,
-          sameSite: 'none',
+          sameSite: 'lax',
           maxAge: 1000 * 60 * 60 * 24 * 7,
         })
         .json({

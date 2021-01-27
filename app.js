@@ -36,12 +36,11 @@ app.use(
     resave: false,
     saveUninitialized: true,
     secret: process.env.COOKIE_SECRET,
-    proxy: true,
     cookie: {
       httpOnly: true,
       secure: false,
       maxAge: 1000 * 60 * 60 * 24 * 7,
-      sameSite: 'none',
+      sameSite: 'lax',
     },
   }),
 );
