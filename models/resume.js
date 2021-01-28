@@ -5,12 +5,12 @@ const resumeSchema = new Schema({
   template: { type: Number, required: true },
   info: {
     title: { type: String, default: 'Untitled' },
-    username: { type: String, required: true },
+    username: { type: String },
     profile: { type: String },
     contact: {
       address: { type: String },
-      phone: { type: String, required: true },
-      email: { type: String, required: true },
+      phone: { type: String },
+      email: { type: String },
       avatar: { type: String },
       link: {
         facebook: { type: String },
