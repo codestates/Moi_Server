@@ -3,25 +3,22 @@ const { Schema } = mongoose;
 const resumeSchema = new Schema({
   userId: { type: Schema.Types.ObjectId, ref: 'User' },
   template: { type: Number, required: true },
-  form: {
-    _id: false,
-    info: {
-      title: { type: String, default: 'Untitled' },
-      contact: {
-        address: { type: String },
-        phone: { type: String, required: true },
-        name: { type: String, required: true },
-        email: { type: String, required: true },
-        avatar: { type: String },
-        link: {
-          facebook: { type: String },
-          twitter: { type: String },
-          blog: { type: String },
-          github: { type: String },
-          youtube: { type: String },
-          instagram: { type: String },
-        },
-        profile: { type: String },
+  info: {
+    title: { type: String, default: 'Untitled' },
+    username: { type: String, required: true },
+    profile: { type: String },
+    contact: {
+      address: { type: String },
+      phone: { type: String, required: true },
+      email: { type: String, required: true },
+      avatar: { type: String },
+      link: {
+        facebook: { type: String },
+        twitter: { type: String },
+        blog: { type: String },
+        github: { type: String },
+        youtube: { type: String },
+        instagram: { type: String },
       },
     },
   },
@@ -29,7 +26,7 @@ const resumeSchema = new Schema({
     {
       _id: false,
       skill: { type: String },
-      description: { type: String },
+      desc: { type: String },
     },
   ],
   workExperience: [
@@ -38,10 +35,8 @@ const resumeSchema = new Schema({
       companyName: { type: String },
       start: { type: String },
       end: { type: String },
-      position: {
-        name: { type: String },
-        desc: [{ type: String }],
-      },
+      positionName: { type: String },
+      desc: [{ type: String }],
     },
   ],
   education: [
@@ -63,13 +58,12 @@ const resumeSchema = new Schema({
       projectPosition: { type: String },
     },
   ],
-  AEA: [
+  aeas: [
     {
       _id: false,
       aeaTitle: { type: String },
       aeaDesc: { type: String },
-      start: { type: String },
-      end: { type: String },
+      aeaDate: { type: String },
     },
   ],
   certification: [
