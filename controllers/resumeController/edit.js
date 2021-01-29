@@ -8,7 +8,7 @@ module.exports = async (req, res, next) => {
       res.status(400).json({ isEdited: false });
 
     const userResume = await Resume.findOne({
-      _id: req.body.resumeId,
+      _id: req.body.values.resumeId,
       userId: req.user._id,
     });
 
@@ -16,12 +16,12 @@ module.exports = async (req, res, next) => {
     const resume = new Resume();
     const updatedAt = resume.dateFormatting(new Date());
     await Resume.updateOne(
-      { _id: req.body.resumeId, userId: req.user._id },
-      { $set: { ...req.body, updatedAt } },
+      { _id: req.body.values.resumeId, userId: req.user._id },
+      { $set: { ...req.body.values, updatedAt } },
       { returnNewDocument: true },
     );
     const newResume = await Resume.findOne({
-      _id: req.body.resumeId,
+      _id: req.body.values.resumeId,
       userId: req.user._id,
     });
     res.status(200).json({ isEdited: true, newResume });
