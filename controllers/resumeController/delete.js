@@ -7,7 +7,7 @@ module.exports = async (req, res, next) => {
   try {
     if (req.user) {
       const {
-        form: { avatar },
+        info: { avatar },
       } = await Resume.findOne({ _id: resumeId });
       await deleteProfiles(avatar);
       await Resume.deleteOne({ _id: resumeId, userId: _id });
