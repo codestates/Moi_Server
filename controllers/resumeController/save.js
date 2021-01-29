@@ -1,16 +1,16 @@
 const Resume = require('../../models/resume');
 
 module.exports = async (req, res, next) => {
-  if (!req.user) res.status(400).json({ save: false });
+  if (!req.user) res.status(401).json({ save: false });
   try {
-    const { email, name, phone } = req.body.form.info.contact;
-    if (!email || !name || !phone) res.status(400).json({ save: false });
+    const { email, phone, address } = req.body.values.info.contact;
+    if (!email || !phone || !address) res.status(400).json({ save: false });
     const resume = new Resume();
     const createdAt = resume.dateFormatting(new Date());
     const updatedAt = resume.dateFormatting(new Date());
     await Resume.create({
       userId: req.user._id,
-      ...req.body,
+      ...req.body.values,
       createdAt,
       updatedAt,
     });

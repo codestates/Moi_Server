@@ -2,16 +2,16 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 const resumeSchema = new Schema({
   userId: { type: Schema.Types.ObjectId, ref: 'User' },
-  template: { type: Number, required: true },
+  template: { type: Number },
   info: {
     title: { type: String, default: 'Untitled' },
     username: { type: String },
     profile: { type: String },
+    avatar: { type: String },
     contact: {
       address: { type: String },
       phone: { type: String },
       email: { type: String },
-      avatar: { type: String },
       link: {
         facebook: { type: String },
         twitter: { type: String },
@@ -36,7 +36,7 @@ const resumeSchema = new Schema({
       start: { type: String },
       end: { type: String },
       positionName: { type: String },
-      desc: [{ type: String }],
+      desc: [{ description: { type: string } }],
     },
   ],
   education: [
