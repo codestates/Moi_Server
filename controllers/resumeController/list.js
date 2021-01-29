@@ -4,7 +4,7 @@ module.exports = async (req, res, next) => {
   const { _id } = req.user;
   try {
     const resumeList = await Resume.find()
-      .select('form createdAt template')
+      .select('form title createdAt updatedAt template')
       .where({ userId: _id });
 
     const resumes = resumeList.map((el) => {
