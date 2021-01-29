@@ -8,19 +8,20 @@ module.exports = async (req, res, next) => {
     if (req.user) {
       const resumes = await Resume.find({ userId: _id });
       resumes
-        .filter((item) => item.form.avatar)
+        .filter((item) => item.info.avatar)
         .map((el) => {
           const {
-            form: { avatar },
+            info: { avatar },
           } = el;
-          deleteProfiles(avatar);
+          if (avatar) {
+            deleteProfiles(avatar);
+          }
         });
       await Resume.deleteMany({ userId: _id });
       await User.deleteOne({ _id });
-      res.clearCookie('accessToken');
       res.status(200).json({ withdrawal: true });
     } else {
-      res.status(400).json({ withdrawal: false });
+      res.status(401).json({ withdrawal: false });
     }
   } catch (err) {
     next(err);

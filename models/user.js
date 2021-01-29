@@ -14,6 +14,9 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  thumbnail: {
+    type: String,
+  },
 });
 
 module.exports = mongoose.model('User', userSchema);
