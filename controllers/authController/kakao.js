@@ -18,7 +18,10 @@ module.exports = async (req, res, next) => {
     });
     const {
       id,
-      kakao_account: { email },
+      kakao_account: {
+        email,
+        profile: { thumbnail_image_url },
+      },
     } = kakaoData.data;
     const exUser = await User.where({ snsId: id }).findOne();
     if (exUser) {
@@ -28,6 +31,7 @@ module.exports = async (req, res, next) => {
           snsId: exUser.snsId,
           email: exUser.email,
           provider: exUser.provider,
+          thumbnail: exUser.thumbnail,
         },
         process.env.JWT_SECRET,
         {
@@ -43,9 +47,20 @@ module.exports = async (req, res, next) => {
           maxAge: 1000 * 60 * 60 * 24 * 7,
           sameSite: 'lax',
         })
-        .json({ currentUser: { id: exUser._id, email: exUser.email } });
+        .json({
+          currentUser: {
+            id: exUser._id,
+            email: exUser.email,
+            thumbnail: exUser.thumbnail,
+          },
+        });
     } else {
-      const user = new User({ snsId: id, email: email, provider: 'kakao' });
+      const user = new User({
+        snsId: id,
+        email: email,
+        provider: 'kakao',
+        thumbnail: thumbnail_image_url,
+      });
       const newUser = await user.save();
       const token = jwt.sign(
         {
@@ -53,6 +68,7 @@ module.exports = async (req, res, next) => {
           snsId: newUser.snsId,
           email: newUser.email,
           provider: newUser.provider,
+          thumbnail: newUser.thumbnail,
         },
         process.env.JWT_SECRET,
         { expiresIn: '7d' },
@@ -66,7 +82,11 @@ module.exports = async (req, res, next) => {
           maxAge: 1000 * 60 * 60 * 24 * 7,
         })
         .json({
-          currentUser: { id: newUser._id, email: newUser.email },
+          currentUser: {
+            id: newUser._id,
+            email: newUser.email,
+            thumbnail: newUser.thumbnail,
+          },
         });
     }
   } catch (err) {

@@ -39,7 +39,7 @@ const resumeSchema = new Schema({
       desc: [{ description: { type: String } }],
     },
   ],
-  education: [
+  educations: [
     {
       _id: false,
       eduTitle: { type: String },

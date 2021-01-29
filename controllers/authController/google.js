@@ -19,7 +19,7 @@ module.exports = async (req, res, next) => {
     const googleData = await axios.get(
       `https://www.googleapis.com/oauth2/v2/userinfo/?access_token=${access_token}`,
     );
-    const { id, email } = googleData.data;
+    const { id, email, picture } = googleData.data;
     const exUser = await User.where({ snsId: id }).findOne();
     if (exUser) {
       const token = jwt.sign(
@@ -28,6 +28,7 @@ module.exports = async (req, res, next) => {
           snsId: exUser.snsId,
           email: exUser.email,
           provider: exUser.provider,
+          thumbnail: exUser.thumbnail,
         },
         process.env.JWT_SECRET,
         { expiresIn: '7d' },
@@ -40,9 +41,20 @@ module.exports = async (req, res, next) => {
           maxAge: 1000 * 60 * 60 * 24 * 7,
           sameSite: 'lax',
         })
-        .json({ currentUser: { id: exUser._id, email: exUser.email } });
+        .json({
+          currentUser: {
+            id: exUser._id,
+            email: exUser.email,
+            thumbnail: exUser.thumbnail,
+          },
+        });
     } else {
-      const user = new User({ snsId: id, email: email, provider: 'google' });
+      const user = new User({
+        snsId: id,
+        email: email,
+        provider: 'google',
+        thumbnail: picture,
+      });
       const newUser = await user.save();
       const token = jwt.sign(
         {
@@ -50,6 +62,7 @@ module.exports = async (req, res, next) => {
           snsId: newUser.snsId,
           email: newUser.email,
           provider: newUser.provider,
+          thumbnail: newUser.thumbnail,
         },
         process.env.JWT_SECRET,
         { expiresIn: '7d' },
@@ -62,7 +75,11 @@ module.exports = async (req, res, next) => {
           maxAge: 1000 * 60 * 60 * 24 * 7,
         })
         .json({
-          currentUser: { id: newUser._id, email: newUser.email },
+          currentUser: {
+            id: newUser._id,
+            email: newUser.email,
+            thumbnail: newUser.thumbnail,
+          },
         });
     }
   } catch (err) {

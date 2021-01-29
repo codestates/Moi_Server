@@ -1,5 +1,5 @@
 exports.google = require('./google');
-exports.facebook = require('./facebook');
+exports.kakao = require('./kakao');
 exports.github = require('./github');
 exports.signOut = require('./signOut');
 exports.isAuth = require('./isAuth');
