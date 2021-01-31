@@ -8,7 +8,7 @@ module.exports = async (req, res, next) => {
     if (req.user) {
       const {
         info: { avatar },
-      } = await Resume.findOne({ _id: resumeId });
+      } = await Resume.where({ _id: resumeId }).findOne();
       await deleteProfiles(avatar);
       await Resume.deleteOne({ _id: resumeId, userId: _id });
       res.status(200).json({ isDeleted: true });
