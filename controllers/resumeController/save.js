@@ -3,10 +3,7 @@ const Resume = require('../../models/resume');
 module.exports = async (req, res, next) => {
   if (!req.user) res.status(401).json({ save: false });
   try {
-    const {
-      contact: { email, phone, address },
-      title,
-    } = req.body.values.info;
+    const { title } = req.body.values.info;
     if (title === '') {
       delete req.body.values.info.title;
     }
