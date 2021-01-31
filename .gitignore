@@ -1,0 +1,17 @@
+#private file
+.env
+
+#npm module
+node_modules
+package-lock.json
+
+#github
+.github
+
+#vscode
+.vscode
+
+# lint
+.eslintignore
+.eslintrc.json
+.prettierrc
