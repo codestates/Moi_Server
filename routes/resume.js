@@ -7,7 +7,7 @@ const router = express.Router();
 router.post('/save', jwtMiddleware, resumeController.save);
 router.post('/edit', jwtMiddleware, resumeController.edit);
 router.get('/getresume/:resumeId', jwtMiddleware, resumeController.getResume);
-router.delete('/delete', jwtMiddleware, resumeController.delete);
+router.post('/delete', jwtMiddleware, resumeController.delete);
 router.get('/list', jwtMiddleware, resumeController.list);
 
 module.exports = router;

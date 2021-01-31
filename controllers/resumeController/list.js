@@ -16,7 +16,6 @@ module.exports = async (req, res, next) => {
         template: el.template,
       };
     });
-
     res.status(200).json({
       list: resumes,
       isGetList: true,

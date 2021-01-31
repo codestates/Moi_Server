@@ -3,8 +3,13 @@ const Resume = require('../../models/resume');
 module.exports = async (req, res, next) => {
   if (!req.user) res.status(401).json({ save: false });
   try {
-    const { email, phone, address } = req.body.values.info.contact;
-    if (!email || !phone || !address) res.status(400).json({ save: false });
+    const {
+      contact: { email, phone, address },
+      title,
+    } = req.body.values.info;
+    if (title === '') {
+      delete req.body.values.info.title;
+    }
     const resume = new Resume();
     const createdAt = resume.dateFormatting(new Date());
     const updatedAt = resume.dateFormatting(new Date());

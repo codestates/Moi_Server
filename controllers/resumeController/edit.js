@@ -3,8 +3,6 @@ const Resume = require('../../models/resume');
 module.exports = async (req, res, next) => {
   try {
     if (!req.user) res.status(400).json({ isEdited: false });
-    const { email, phone } = req.body.values.info.contact;
-    if (!email || !phone) res.status(400).json({ isEdited: false });
 
     const userResume = await Resume.findOne({
       _id: req.body.values.resumeId,
