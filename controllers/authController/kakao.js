@@ -8,7 +8,7 @@ module.exports = async (req, res, next) => {
     const clientId = process.env.KAKAO_CLIENT_ID;
     const clientKey = process.env.KAKAO_SECRET_KEY;
     const kakaoToken = await axios.post(
-      `https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${clientId}&client_secret=${clientKey}&redirect_uri=http://localhost:3000&code=${authorizationCode}`,
+      `https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${clientId}&client_secret=${clientKey}&redirect_uri=https://www.everymoi.com&code=${authorizationCode}`,
     );
     const { access_token } = kakaoToken.data;
     const kakaoData = await axios.get('https://kapi.kakao.com/v2/user/me', {
@@ -45,7 +45,7 @@ module.exports = async (req, res, next) => {
           httpOnly: true,
           secure: true,
           maxAge: 1000 * 60 * 60 * 24 * 7,
-          sameSite: 'lax',
+          sameSite: 'none',
         })
         .json({
           currentUser: {
@@ -78,7 +78,7 @@ module.exports = async (req, res, next) => {
         .status(200)
         .cookie('accessToken', token, {
           httpOnly: true,
-          sameSite: 'lax',
+          sameSite: 'none',
           maxAge: 1000 * 60 * 60 * 24 * 7,
         })
         .json({

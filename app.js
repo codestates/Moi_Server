@@ -25,7 +25,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(
   cors({
-    origin: ['http://localhost:3000', 'https://www.everymoi.com'],
+    origin: ['https://www.everymoi.com'],
     methods: ['GET', 'POST', 'DELETE', 'PATCH', 'OPTIONS'],
     credentials: true,
   }),
@@ -40,7 +40,7 @@ app.use(
       httpOnly: true,
       secure: true,
       maxAge: 1000 * 60 * 60 * 24 * 7,
-      sameSite: 'lax',
+      sameSite: 'none',
     },
   }),
 );

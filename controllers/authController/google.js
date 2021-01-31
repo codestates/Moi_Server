@@ -11,7 +11,7 @@ module.exports = async (req, res, next) => {
         code: authorizationCode,
         client_id: process.env.GOOGLE_CLIENT_ID,
         client_secret: process.env.GOOGLE_SECRET_KEY,
-        redirect_uri: 'http://localhost:3000',
+        redirect_uri: 'https://www.everymoi.com',
         grant_type: 'authorization_code',
       },
     );
@@ -39,7 +39,7 @@ module.exports = async (req, res, next) => {
           httpOnly: true,
           secure: true,
           maxAge: 1000 * 60 * 60 * 24 * 7,
-          sameSite: 'lax',
+          sameSite: 'none',
         })
         .json({
           currentUser: {
@@ -71,7 +71,7 @@ module.exports = async (req, res, next) => {
         .status(200)
         .cookie('accessToken', token, {
           httpOnly: true,
-          sameSite: 'lax',
+          sameSite: 'none',
           maxAge: 1000 * 60 * 60 * 24 * 7,
         })
         .json({
