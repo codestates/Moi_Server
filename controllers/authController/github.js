@@ -50,7 +50,7 @@ module.exports = async (req, res, next) => {
           httpOnly: true,
           secure: false,
           maxAge: 1000 * 60 * 60 * 24 * 7,
-          sameSite: 'lax',
+          sameSite: 'none',
         })
         .json({
           currentUser: {
@@ -84,7 +84,7 @@ module.exports = async (req, res, next) => {
         .cookie('accessToken', token, {
           httpOnly: true,
           secure: true,
-          sameSite: 'lax',
+          sameSite: 'none',
           maxAge: 1000 * 60 * 60 * 24 * 7,
         })
         .json({
