@@ -1,6 +1,6 @@
-const axios = require('axios');
-const User = require('../../models/user');
-const jwt = require('jsonwebtoken');
+const axios = require("axios");
+const User = require("../../models/user");
+const jwt = require("jsonwebtoken");
 
 module.exports = async (req, res, next) => {
   try {
@@ -8,10 +8,10 @@ module.exports = async (req, res, next) => {
     const clientId = process.env.KAKAO_CLIENT_ID;
     const clientKey = process.env.KAKAO_SECRET_KEY;
     const kakaoToken = await axios.post(
-      `https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${clientId}&client_secret=${clientKey}&redirect_uri=http://localhost:3000&code=${authorizationCode}`,
+      `https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${clientId}&client_secret=${clientKey}&redirect_uri=http://https://www.everymoi.com&code=${authorizationCode}`
     );
     const { access_token } = kakaoToken.data;
-    const kakaoData = await axios.get('https://kapi.kakao.com/v2/user/me', {
+    const kakaoData = await axios.get("https://kapi.kakao.com/v2/user/me", {
       headers: {
         Authorization: `Bearer ${access_token}`,
       },
@@ -35,17 +35,17 @@ module.exports = async (req, res, next) => {
         },
         process.env.JWT_SECRET,
         {
-          expiresIn: '7d',
-        },
+          expiresIn: "7d",
+        }
       );
 
       res
         .status(200)
-        .cookie('accessToken', token, {
+        .cookie("accessToken", token, {
           httpOnly: true,
           secure: true,
           maxAge: 1000 * 60 * 60 * 24 * 7,
-          sameSite: 'lax',
+          sameSite: "none",
         })
         .json({
           currentUser: {
@@ -58,7 +58,7 @@ module.exports = async (req, res, next) => {
       const user = new User({
         snsId: id,
         email: email,
-        provider: 'kakao',
+        provider: "kakao",
         thumbnail: thumbnail_image_url,
       });
       const newUser = await user.save();
@@ -71,14 +71,14 @@ module.exports = async (req, res, next) => {
           thumbnail: newUser.thumbnail,
         },
         process.env.JWT_SECRET,
-        { expiresIn: '7d' },
+        { expiresIn: "7d" }
       );
 
       res
         .status(200)
-        .cookie('accessToken', token, {
+        .cookie("accessToken", token, {
           httpOnly: true,
-          sameSite: 'lax',
+          sameSite: "none",
           maxAge: 1000 * 60 * 60 * 24 * 7,
         })
         .json({
