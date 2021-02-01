@@ -25,8 +25,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(
   cors({
-    origin: ["http://localhost:3000", "https://www.everymoi.com"],
-    methods: ["GET", "POST", "DELETE", "PATCH", "OPTIONS"],
+    origin: ['https://www.everymoi.com'],
+    methods: ['GET', 'POST', 'DELETE', 'PATCH', 'OPTIONS'],
     credentials: true,
   })
 );
