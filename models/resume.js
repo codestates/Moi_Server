@@ -1,10 +1,10 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const resumeSchema = new Schema({
-  userId: { type: Schema.Types.ObjectId, ref: 'User' },
+  userId: { type: Schema.Types.ObjectId, ref: "User" },
   template: { type: Number },
   info: {
-    title: { type: String, default: 'Untitled' },
+    title: { type: String, default: "Untitled" },
     username: { type: String },
     profile: { type: String },
     avatar: { type: String },
@@ -66,19 +66,19 @@ const resumeSchema = new Schema({
       aeaDate: { type: String },
     },
   ],
-  certification: [
+  certificates: [
     {
       _id: false,
-      certificationTitle: { type: String },
-      certificationDesc: { type: String },
-      certificationDate: { type: String },
+      certificateTitle: { type: String },
+      certificateDesc: { type: String },
+      certificateDate: { type: String },
     },
   ],
   createdAt: { type: String },
   updatedAt: { type: String },
 });
 
-resumeSchema.method('dateFormatting', (now) => {
+resumeSchema.method("dateFormatting", (now) => {
   const currentTimeZoneOffsetInHours = -now.getTimezoneOffset() / 60;
   const currentTimeZone = new Date(now + currentTimeZoneOffsetInHours);
   const year = currentTimeZone.getFullYear();
@@ -91,4 +91,4 @@ resumeSchema.method('dateFormatting', (now) => {
   return `${year}-${month}-${date} ${hours}:${minutes}:${seconds}`;
 });
 
-module.exports = mongoose.model('Resume', resumeSchema);
+module.exports = mongoose.model("Resume", resumeSchema);
